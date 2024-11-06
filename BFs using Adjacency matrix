@@ -1,0 +1,84 @@
+#include <stdio.h>
+#define MAX 100
+
+int a[MAX][MAX];       // Adjacency matrix to store the graph
+int visited[MAX];      // Array to track visited nodes
+int queue[MAX];        // Array-based queue for BFS
+int front = -1, rear = -1;
+
+// Function to add an element to the queue
+void enqueue(int v) {
+    if (rear == MAX - 1) {
+        printf("Queue is full\n");
+    } else {
+        if (front == -1) front = 0;
+        queue[++rear] = v;
+    }
+}
+
+// Function to remove and return an element from the queue
+int dequeue() {
+    if (front == -1 || front > rear) {
+        return -1;
+    } else {
+        return queue[front++];
+    }
+}
+
+// BFS function
+void bfs(int n, int start) {
+    // Initialize all nodes as unvisited
+    for (int i = 1; i <= n; i++) {
+        visited[i] = 0;
+    }
+
+    // Mark the starting node as visited and enqueue it
+    visited[start] = 1;
+    enqueue(start);
+
+    printf("BFS traversal starting from node %d:\n", start);
+    while (front <= rear) {
+        int current = dequeue();
+        printf("%d ", current);
+
+        // Check all adjacent nodes
+        for (int j = 1; j <= n; j++) {
+            if (a[current][j] == 1 && !visited[j]) {
+                visited[j] = 1;
+                enqueue(j);
+            }
+        }
+    }
+    printf("\n");
+}
+
+// Main function to input the graph and run BFS
+int main() {
+    int n, edges, start;
+    printf("Enter the number of nodes in the graph: ");
+    scanf("%d", &n);
+    
+    printf("Enter the number of edges: ");
+    scanf("%d", &edges);
+
+    // Initialize adjacency matrix to 0
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+            a[i][j] = 0;
+        }
+    }
+
+    printf("Enter the edges (format: u v for an edge from u to v):\n");
+    for (int i = 0; i < edges; i++) {
+        int u, v;
+        scanf("%d %d", &u, &v);
+        a[u][v] = 1; // Assuming a directed graph
+        a[v][u] = 1; // Uncomment for an undirected graph
+    }
+
+    printf("Enter the starting node for BFS: ");
+    scanf("%d", &start);
+
+    bfs(n, start);
+    return 0;
+}
