@@ -1,0 +1,53 @@
+#include<stdio.h>
+int a[100][100];
+int b[100];
+int I = 1;
+void dfs(int j,int n){
+for(int t=j; t<=n; t++){
+    for(int m=1; m<=n; m++){
+        int o=0;
+        if(a[m][t]==1){
+            for(int k = 1;k<= n;k++)
+                if(m==b[k])
+                    o++;
+        if(o==0){
+            b[I++]=m;
+            dfs(m,n);
+        }
+        }
+    }
+}
+}
+void add(int c,int e){
+     a[c][e] = 1;
+     a[e][c] = 1;
+}
+int main(){
+    int n;
+    printf("Enter the size of array:");
+    scanf("%d",&n);
+    for(int i = 1;i<=n;i++){
+        for(int j = 1;j<=n;j++){
+            int m;
+            if(a[i][j]==1)
+              continue;
+              printf("relation between %d and %d is: ",i,j);
+              scanf("%d",&m);
+              if(m==1){
+                  add(i,j);
+              }
+    }
+}
+for(int i = 1;i<=n;i++){
+    for(int j =1;j<=n;j++){
+        printf("%d",a[i][j]);
+    }
+}
+b[I++]=1;
+dfs(1,n);
+printf("bfs traversal is:\n");
+for(int i= 0;i<=n;i++){
+    printf("%d",b[i]);
+    return 0;
+}
+}
